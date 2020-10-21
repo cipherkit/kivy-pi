@@ -10,10 +10,14 @@ throw an exception during the kv language processing.
 '''
 
 # Uncomment these lines to see all the messages
+from kivy.config import ConfigParser
+from kivy.core.camera import Camera
 from kivy.logger import Logger
 import logging
 
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.settings import Settings
 
 Logger.setLevel(logging.TRACE)
 
@@ -25,10 +29,22 @@ import time
 Builder.load_file("doorbell.kv")
 
 
-class DoorBell(BoxLayout):
-    def on_touch_down(self, touch):
-        if self.collide_point(*touch.pos):
-            self.capture()
+class SuspendedMode(Screen):
+
+    def light_off(self):
+        pass
+
+    def suspend(self):
+        self.sm.current = 'suspended'
+        self.light_off()
+        # more suspension here
+
+
+class MenuScreen(Screen):
+    pass
+
+
+class ViewerScreen(Screen):
 
     def capture(self):
         '''
@@ -42,10 +58,26 @@ class DoorBell(BoxLayout):
         print("Captured")
 
 
-class Main(App):
+class SettingsMenu(Screen):
+    pass
+
+
+# Create the screen manager
+sm = ScreenManager()
+sm.add_widget(ViewerScreen(name='viewer'))
+sm.add_widget(MenuScreen(name='menu'))
+sm.add_widget(SettingsMenu(name='settings'))
+sm.add_widget(SuspendedMode(name='suspend'))
+
+sm.add_widget(SettingsMenu(name='settings'))
+
+
+class DoorBell(App):
 
     def build(self):
-        return DoorBell()
+        return sm
 
 
-Main().run()
+if __name__ == "__main__":
+    app = DoorBell()
+    app.run()

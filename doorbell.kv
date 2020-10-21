@@ -1,15 +1,49 @@
 #:kivy 1.0
 
-<DoorBell>:
-    orientation: 'vertical'
-    Camera:
-        id: camera
-        resolution: (640, 480)
-        play: True
+<SuspendedMode>:
+    RelativeLayout:
+        Button:
+            background_color: 0, 0, 0, 0
+            on_press: root.manager.current = 'viewer'
+
+<MenuScreen>:
+    BoxLayout:
+        Button:
+            text: 'Viewer'
+            on_press: root.manager.current = 'viewer'
+        Button:
+            text: 'Settings'
+            on_press: root.manager.current = 'settings'
+        Button:
+            text: 'Suspend'
+            on_press: root.manager.current = 'suspend'
+
+<ViewerScreen>:
+    BoxLayout
+        orientation: 'vertical'
+        Camera:
+            id: camera
+            resolution: (640, 480)
+            play: True
+            on_touch_down: root.capture()
+
+        Button:
+            background_color: 128, 128, 128
+            text: 'menu'
+            size_hint_y: None
+            height: '48dp'
+            width: '48dp'
+            on_press: root.manager.current = 'menu'
+
+        Button:
+            text: 'Suspend'
+            size_hint_y: None
+            height: '48dp'
+            on_press: root.manager.current = 'suspend'
+
+<SettingsMenu>:
+    text: 'Reserved for settings.'
+
     Button:
-        background_color: 128, 128, 128
-        text: 'menu'
-        size_hint_y: None
-        height: '48dp'
-        width: '48dp'
-        on_press: root.settings()
+        text: 'Viewer'
+        on_press: root.manager.current = 'viewer'
