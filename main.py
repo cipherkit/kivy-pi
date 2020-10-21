@@ -9,23 +9,13 @@ throw an exception during the kv language processing.
 
 '''
 
-# Uncomment these lines to see all the messages
-from kivy.config import ConfigParser
-from kivy.core.camera import Camera
 from kivy.logger import Logger
 import logging
-
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.settings import Settings
-
-Logger.setLevel(logging.TRACE)
-
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.boxlayout import BoxLayout
 import time
-
+Logger.setLevel(logging.TRACE)
 Builder.load_file("doorbell.kv")
 
 
@@ -55,7 +45,7 @@ class ViewerScreen(Screen):
         camera = self.ids['camera']
         timestr = time.strftime("%Y%m%d_%H%M%S")
         camera.export_to_png("IMG_{}.png".format(timestr))
-        print("Captured")
+        Logger.debug("Screen Captured.")
 
 
 class SettingsMenu(Screen):
@@ -68,8 +58,6 @@ sm.add_widget(ViewerScreen(name='viewer'))
 sm.add_widget(MenuScreen(name='menu'))
 sm.add_widget(SettingsMenu(name='settings'))
 sm.add_widget(SuspendedMode(name='suspend'))
-
-sm.add_widget(SettingsMenu(name='settings'))
 
 
 class DoorBell(App):
