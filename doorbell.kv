@@ -1,0 +1,15 @@
+#:kivy 1.0
+
+<DoorBell>:
+    orientation: 'vertical'
+    Camera:
+        id: camera
+        resolution: (640, 480)
+        play: True
+    Button:
+        background_color: 128, 128, 128
+        text: 'menu'
+        size_hint_y: None
+        height: '48dp'
+        width: '48dp'
+        on_press: root.settings()
