@@ -1,2 +1,2 @@
 # kivy-pi
-A kivy based interface for a doorbell
+A kivy based interface for a camera  viewer and doorbell.
